@@ -3,7 +3,7 @@ import { ethers, upgrades } from "hardhat";
 async function main() {
   const NFTContractV2 = await ethers.getContractFactory("NFTV2");
   const nft = await upgrades.upgradeProxy(
-    "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
+    "0xba13b6604ccc74ba83b5ac520fb5de808a8c13b2",
     NFTContractV2,
     {
       kind: "uups",

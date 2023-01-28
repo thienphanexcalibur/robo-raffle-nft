@@ -23,15 +23,15 @@ contract NFTV2 is Initializable, ERC721Upgradeable, ERC721URIStorageUpgradeable,
     }
 
     function initialize() initializer public {
-        test = 1;
         __ERC721_init("AI Collection", "AIC");
         __ERC721URIStorage_init();
         __ERC721Burnable_init();
         __Ownable_init();
         __UUPSUpgradeable_init();
+        test = 1;
     }
 
-    function safeMint(address to, string memory uri) public onlyOwner {
+    function safeMint(address to, string memory uri) public {
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
         _safeMint(to, tokenId);

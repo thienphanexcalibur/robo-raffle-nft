@@ -12,8 +12,9 @@ export default async function handler(
   if (req.method === "POST") {
     try {
       const { phrase } = req.body;
+      console.log(phrase);
 
-      const url = `https://robohash.org/${phrase}`;
+      const url = `https://robohash.org/${phrase}?set=any`;
 
       let metadata = null;
       const buffer = await fetch(url).then((res) => res.arrayBuffer());
@@ -24,6 +25,13 @@ export default async function handler(
         image: new File([Buffer.from(buffer)], `${ulid()}.png`, {
           type: "image/png",
         }),
+        attributes: [
+          {
+            display_type: "date",
+            trait_type: "birthday",
+            value: Math.floor(Date.now() / 1000),
+          },
+        ],
       });
       console.log("IPFS URL for the metadata:", metadata.url);
       console.log("metadata.json contents:\n", metadata.data);
@@ -32,7 +40,7 @@ export default async function handler(
       res.json({
         status: 200,
         message: null,
-        data: metadata,
+        data: metadata.url,
       });
     } catch (e: any) {
       res.json({
@@ -41,6 +49,7 @@ export default async function handler(
         data: null,
       });
     }
+    return;
   }
   res.status(200).send("OK");
 }
