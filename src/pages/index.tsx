@@ -1,22 +1,22 @@
 import Head from "next/head";
-import { Box, Container } from "@chakra-ui/react";
-import { useAccount, useConnect } from "wagmi";
+import { Box, Container, Heading } from "@chakra-ui/react";
+import { useAccount, useConnect, useNetwork, useSwitchNetwork } from "wagmi";
 import { useEffect } from "react";
-import { InjectedConnector } from "wagmi/connectors/injected";
+
 import ConnectButton from "@/components/ConnectButton";
 import Mint from "@/components/Mint";
+import { APP_CHAIN_ID } from "@/constants";
+import ClientOnly from "@/components/ClientOnly";
 
 export default function Home() {
-  const { address } = useAccount();
-  const { connect } = useConnect({
-    connector: new InjectedConnector(),
+  const { isConnected } = useAccount();
+  const { chain } = useNetwork();
+  const { switchNetwork } = useSwitchNetwork({
+    chainId: Number(APP_CHAIN_ID),
+    throwForSwitchChainNotSupported: true,
   });
-
-  useEffect(() => {
-    connect();
-  }, []);
   return (
-    <Box>
+    <Box py="24px">
       <Head>
         <title>Mint Robohash</title>
         <meta name="description" content="Mint Robohash" />
@@ -24,8 +24,13 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Container>
-        <ConnectButton />
-        {address && <Mint />}
+        <Heading size="md" mb="4">
+          Robo NFT
+        </Heading>
+        <ClientOnly>
+          <ConnectButton />
+          {isConnected && <Mint />}
+        </ClientOnly>
       </Container>
     </Box>
   );

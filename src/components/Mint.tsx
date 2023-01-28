@@ -3,26 +3,17 @@ import {
   Button,
   Heading,
   Input,
-  Spinner,
-  Text,
-  Image,
   VStack,
   useToast,
-  TabList,
 } from "@chakra-ui/react";
-import { useAccount, useSigner } from "wagmi";
+import { useAccount } from "wagmi";
 import { FormEvent, useState, ChangeEvent } from "react";
 import NextImage from "next/image";
 import { useDebounce } from "react-use";
-import { Contract, ethers } from "ethers";
+import { ethers } from "ethers";
 import { NFTV2, NFTV2__factory } from "typechain-types";
 
-const loader = () => {
-  return "/loading.svg";
-};
-
 const Mint = () => {
-  const { data: signer } = useSigner();
   const { address, connector } = useAccount();
 
   const [value, setValue] = useState<string>("");
@@ -96,7 +87,12 @@ const Mint = () => {
             src={`https://robohash.org/${preview}?set=any`}
           />
         ) : (
-          <Image src="/loading.svg" />
+          <NextImage
+            alt="loading"
+            src="/loading.svg"
+            width="200"
+            height="200"
+          />
         )}
       </Box>
 
@@ -110,7 +106,12 @@ const Mint = () => {
         placeholder="Write something unique..."
         onChange={onChange}
       />
-      <Button type="submit" isLoading={loading} disabled={!value}>
+      <Button
+        type="submit"
+        colorScheme="gray"
+        isLoading={loading}
+        isDisabled={!value}
+      >
         Mint
       </Button>
     </VStack>

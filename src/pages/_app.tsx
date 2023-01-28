@@ -1,11 +1,12 @@
 import { ChakraProvider } from "@chakra-ui/react";
-import { getDefaultProvider } from "ethers";
 import type { AppProps } from "next/app";
 import { createClient, WagmiConfig } from "wagmi";
+import { supportedConnectors, supportedProvider } from "@/constants";
 
 const client = createClient({
-  autoConnect: false,
-  provider: getDefaultProvider(),
+  autoConnect: true,
+  provider: supportedProvider,
+  connectors: supportedConnectors,
 });
 
 export default function App({ Component, pageProps }: AppProps) {
