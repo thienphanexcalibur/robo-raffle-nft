@@ -7,14 +7,19 @@ import ConnectButton from "@/components/ConnectButton";
 import Mint from "@/components/Mint";
 import { APP_CHAIN_ID } from "@/constants";
 import ClientOnly from "@/components/ClientOnly";
+import { bscTestnet } from "wagmi/chains";
 
 export default function Home() {
   const { isConnected } = useAccount();
   const { chain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork({
-    chainId: Number(APP_CHAIN_ID),
     throwForSwitchChainNotSupported: true,
   });
+  useEffect(() => {
+    if (chain?.id !== bscTestnet.id && switchNetwork) {
+      switchNetwork(bscTestnet.id);
+    }
+  }, [chain, switchNetwork]);
   return (
     <Box py="24px">
       <Head>

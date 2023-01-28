@@ -1,8 +1,7 @@
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { publicProvider } from "@wagmi/core/providers/public";
 import { configureChains } from "wagmi";
-import { bsc, bscTestnet } from "wagmi/chains";
-import { MetaMaskConnector } from "wagmi/connectors/metaMask";
+import { bscTestnet } from "wagmi/chains";
 import sample from "lodash/sample";
 
 export const APP_CHAIN_ID = process.env.CHAIN_ID as string;
@@ -22,7 +21,19 @@ export const getHTTPRPC = () => {
 
 const { chains, provider } = configureChains([bscTestnet], [publicProvider()]);
 
-export const supportedConnectors = [new MetaMaskConnector({ chains })];
+export const supportedConnectors = [
+  new InjectedConnector({
+    options: {
+      name: (detectedName) =>
+        `${
+          typeof detectedName === "string"
+            ? detectedName
+            : detectedName.join(", ")
+        }`,
+      shimChainChangedDisconnect: true,
+    },
+  }),
+];
 
 export const supportedChains = chains;
 export const supportedProvider = provider;
