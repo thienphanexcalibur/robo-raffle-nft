@@ -37,7 +37,5 @@ yarn-error.log*
 next-env.d.ts
 
 # hardhat
-typechain-types
-artifacts
 cache
 .openzeppelin
