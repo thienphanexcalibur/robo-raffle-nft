@@ -4,7 +4,7 @@ async function main() {
   const NFTContract = await ethers.getContractFactory("NFT");
   const nft = await upgrades.deployProxy(NFTContract, [], { kind: "uups" });
   await nft.deployed();
-  console.log('proxy is deployed', nft.address)
+  console.log("proxy is deployed", nft.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
