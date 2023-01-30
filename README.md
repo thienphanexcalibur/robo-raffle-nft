@@ -21,3 +21,8 @@ npx hardhat run -- ./scripts/deployProxy.ts ---network [bscTest|localhost]
 ```
 npx hardhat run -- ./scripts/upgradeProxy.ts ---network [bscTest|localhost]
 ```
+
+- Verify implementation (using hardhat)
+```
+npx hardhat verify --network [bscTest] [address]
+```
